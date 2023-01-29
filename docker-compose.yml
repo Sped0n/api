@@ -1,0 +1,10 @@
+version: "3.3"
+
+services:
+  test:
+    container_name: arc_pls_api
+    build: .
+    command: bash bash.sh
+    restart: unless-stopped
+    ports:
+      - "38888:8080"
