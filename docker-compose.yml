@@ -7,4 +7,9 @@ services:
     command: bash bash.sh
     restart: unless-stopped
     ports:
-      - "38888:8080"
+      - "48888:8080"
+    environment:
+      API_KEY: ""
+      SITE_ID: "arc.sped0nwen.com"
+      PLS_HOST: "pls.sped0nwen.com"
+      TZ: "Asia/Shanghai"
