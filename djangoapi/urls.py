@@ -19,5 +19,5 @@ from api import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("pageviews/", views.get_pageviews, name="pageviews_api")
+    path("arc_metric/", views.arc_metric_api, name="arc_metric_api")
 ]
