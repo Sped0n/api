@@ -1,5 +1,5 @@
 """
-WSGI config for arc_pls_api project.
+WSGI config for djangoapi project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "arc_pls_api.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoapi.settings")
 
 application = get_wsgi_application()
