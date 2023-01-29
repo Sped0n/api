@@ -1,10 +1,12 @@
-FROM python:3.9
+FROM python:3.9.16-slim-bullseye
 
 MAINTAINER sped0n
 
 RUN mkdir /site && chmod 777 /site
 
 WORKDIR /site
+
+#RUN apt -qq update && apt -qq install -y python3 python3-pip
 
 COPY . .
 
