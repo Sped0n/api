@@ -30,4 +30,6 @@ jobs:
         SITE_ID : ${{ vars.TEST_SITE_ID }}
         PLS_HOST : ${{ vars.TEST_PLS_HOST }}
       run: |
+        python manage.py makemigrations
+        python manage.py migrate
         python manage.py test
