@@ -12,4 +12,6 @@ services:
       API_KEY: ""
       SITE_ID: "arc.sped0nwen.com"
       PLS_HOST: "pls.sped0nwen.com"
+      DJANGO_DEBUG: "false"
+      RUN_ON_HOST: "arc.sped0nwen.com"
       TZ: "Asia/Shanghai"
