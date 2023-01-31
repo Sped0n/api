@@ -91,10 +91,7 @@ def arc_metric_api(request):
         metrics_json = fetch_latest_data()
     response = JsonResponse(metrics_json)
     response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Max-Age"] = "1000"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return response
-    return JsonResponse(metrics_json)
 
 
 scheduler = BackgroundScheduler()
