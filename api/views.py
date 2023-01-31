@@ -89,7 +89,8 @@ def arc_metric_api(request):
     # normal mode
     else:
         metrics_json = fetch_latest_data()
-    return JsonResponse(metrics_json)
+    response = JsonResponse(metrics_json)
+    return response
 
 
 scheduler = BackgroundScheduler()
