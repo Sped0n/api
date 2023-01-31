@@ -1,13 +1,13 @@
 name: Docker Image CI
 
 on:
-  workflow_run:
-    workflows: ["Django CI"]
+  pull_request:
     types:
-      - completed
+      - closed
 
 jobs:
-  build:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
