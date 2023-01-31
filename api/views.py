@@ -90,7 +90,6 @@ def arc_metric_api(request):
     else:
         metrics_json = fetch_latest_data()
     response = JsonResponse(metrics_json)
-    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 
