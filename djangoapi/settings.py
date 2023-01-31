@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_apscheduler",
+    "corsheaders",
     "api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -126,6 +128,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CORS_ALLOWED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = []
+
 try:
     from local_settings import set_api_key
     set_api_key()
@@ -133,9 +138,14 @@ except ImportError:
     pass  # No local_settings file
 
 if os.getenv('RUN_ON_HOST'):
-    ALLOWED_HOSTS.append(os.getenv('RUN_ON_HOST'))
-    print(ALLOWED_HOSTS)
+    ALLOWED_HOSTS.extend(os.getenv('RUN_ON_HOST').split(','))
+    print("allowed hosts:\n", ALLOWED_HOSTS)
 
 if os.getenv('DJANGO_DEBUG') == 'false':
     DEBUG = False
     print("Production environment")
+
+if os.getenv('CORS_ALLOWED_ORIGINS'):
+    CORS_ALLOWED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
+    CSRF_TRUSTED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
+    print("cors allowed origin:\n", CORS_ALLOWED_ORIGINS)
