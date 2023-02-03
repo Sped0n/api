@@ -132,8 +132,7 @@ CORS_ALLOWED_ORIGINS = []
 CSRF_TRUSTED_ORIGINS = []
 
 try:
-    from local_settings import set_api_key
-
+    from local_settings import *
     set_api_key()
 except ImportError:
     pass  # No local_settings file
@@ -150,3 +149,6 @@ if os.getenv('CORS_ALLOWED_ORIGINS'):
     CORS_ALLOWED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
     CSRF_TRUSTED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
     print("cors allowed origin:\n", CORS_ALLOWED_ORIGINS)
+
+if os.getenv('DJANGO_SECRET_KEY'):
+    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
