@@ -14,5 +14,6 @@ services:
       PLS_HOST: "pls.sped0nwen.com"
       DJANGO_DEBUG: ""
       RUN_ON_HOST: "api.sped0nwen.com"
-      CORS_ALLOWED_ORIGINS: "https://arc.sped0nwen.com"
+      CORS_ALLOWED_ORIGINS: "https://arc.sped0nwen.com,http://localhost:1313"
+      DJANGO_SECRET_KEY: ""
       TZ: "Asia/Shanghai"
