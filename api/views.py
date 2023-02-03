@@ -83,9 +83,9 @@ def arc_metric_api(request):
             metrics_json["visitors"] = data["visitors"]["value"]
         # fallback
         else:
-            log_error("eager_status_code", r.status_code)
+            log_error("eager_status_code", str(r.status_code))
             metrics_json = fetch_latest_data()
-        return Response(data)
+        return Response(metrics_json)
     # normal mode
     else:
         metrics_json = fetch_latest_data()
