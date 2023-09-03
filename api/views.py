@@ -25,6 +25,7 @@ headers: dict[str, str] = {
 
 
 def log_error(error_type="unknown", content="n/a") -> None:
+    print(f"error: {error_type} {content}", flush=True)
     # log error
     ErrorLogs.objects.create(type=error_type, content=content)  # type: ignore
     # limit the number of logs to 250
@@ -65,7 +66,7 @@ def arc_metric_api(request):
             r = requests.get(url, headers=headers, timeout=5)
             assert r.status_code == 200
         # fallback
-        except Timeout or AssertionError as e:
+        except Exception as e:
             if e.__class__ == Timeout:
                 log_error("eager_request_timeout", str(e))
             elif e.__class__ == AssertionError:
@@ -92,7 +93,7 @@ scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-@register_job(scheduler, "interval", seconds=10, id="json_fetch", replace_existing=True)
+@register_job(scheduler, "interval", seconds=60, id="json_fetch", replace_existing=True)
 @util.close_old_connections
 def json_fetch():
     # validate the variables
@@ -107,10 +108,10 @@ def json_fetch():
     # get json
     try:
         r = requests.get(url, headers=headers, timeout=15)
-        print("fetch complete", datetime.datetime.now())
+        print("fetch complete", datetime.datetime.now(), flush=True)
         assert r.status_code == 200
     # log error and don't touch the data
-    except Timeout or AssertionError as e:
+    except Exception as e:
         if e.__class__ == Timeout:
             log_error("cron_request_timeout", str(e))
         elif e.__class__ == AssertionError:
