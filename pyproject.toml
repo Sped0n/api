@@ -15,5 +15,6 @@ dependencies = [
   "Django==4.2.4",
   "django_apscheduler==0.6.2",
   "djangorestframework==3.14.0",
+  "django-cors-headers==4.2.0",
   "Requests==2.31.0",
 ]
