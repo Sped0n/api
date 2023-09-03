@@ -11,7 +11,7 @@ services:
     environment:
       API_KEY: ""
       SITE_ID: "arc.sped0nwen.com"
-      PLS_HOST: "pls.sped0nwen.com"
+      UMAMI_HOST: "umami.sped0nwen.com"
       DJANGO_DEBUG: ""
       RUN_ON_HOST: "api.sped0nwen.com"
       CORS_ALLOWED_ORIGINS: "https://arc.sped0nwen.com,http://localhost:1313"

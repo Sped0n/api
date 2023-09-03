@@ -57,8 +57,7 @@ ROOT_URLCONF = "djangoapi.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -88,7 +87,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -132,23 +131,30 @@ CORS_ALLOWED_ORIGINS = []
 CSRF_TRUSTED_ORIGINS = []
 
 try:
-    from local_settings import *
+    # local settings file
+    from local_settings import set_api_key
+
     set_api_key()
 except ImportError:
-    pass  # No local_settings file
+    pass  # No local settings file
 
-if os.getenv('RUN_ON_HOST'):
-    ALLOWED_HOSTS.extend(os.getenv('RUN_ON_HOST').split(','))
+RUN_ON_HOST = os.getenv("RUN_ON_HOST")
+DJANGO_DEBUG = os.getenv("DJANGO_DEBUG")
+DJANGO_SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+ENV_CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS")
+
+if RUN_ON_HOST is not None:
+    ALLOWED_HOSTS.extend(RUN_ON_HOST.split(","))
     print("allowed hosts:\n", ALLOWED_HOSTS)
 
-if os.getenv('DJANGO_DEBUG') == 'false':
+if DJANGO_DEBUG == "false":
     DEBUG = False
     print("Production environment")
 
-if os.getenv('CORS_ALLOWED_ORIGINS'):
-    CORS_ALLOWED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
-    CSRF_TRUSTED_ORIGINS.extend(os.getenv('CORS_ALLOWED_ORIGINS').split(','))
+if ENV_CORS_ALLOWED_ORIGINS is not None:
+    CORS_ALLOWED_ORIGINS.extend(ENV_CORS_ALLOWED_ORIGINS.split(","))
+    CSRF_TRUSTED_ORIGINS.extend(ENV_CORS_ALLOWED_ORIGINS.split(","))
     print("cors allowed origin:\n", CORS_ALLOWED_ORIGINS)
 
-if os.getenv('DJANGO_SECRET_KEY'):
-    SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+if DJANGO_SECRET_KEY is not None:
+    SECRET_KEY = DJANGO_SECRET_KEY
