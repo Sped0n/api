@@ -10,6 +10,7 @@ from django_apscheduler.jobstores import DjangoJobStore, register_job
 from requests import Timeout
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 
 from api.ctyper import GetError, VarNotValid
 from api.models import ErrorLogs, MetricsCache
@@ -93,10 +94,10 @@ p = Poster()
 
 @api_view(("GET",))
 @renderer_classes([JSONRenderer])
-def arc_metric_api(request) -> JsonResponse:
+def arc_metric_api(request) -> JsonResponse | Response:
     # validate the variables
     if not p.var_valid:
-        return JsonResponse("please set variables correctly")
+        return Response("please set variables correctly")
     eager = request.GET.get("eager", "false")
     tmp: dict = {}
     # eager mode
