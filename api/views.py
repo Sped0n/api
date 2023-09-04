@@ -54,9 +54,9 @@ def arc_metric_api(request):
     # initialize the return value
     metrics_json = {}
     # start timestamp (2023/09/03)
-    start_timestamp: str = "1693699200"
+    start_timestamp: str = "1693699200000"
     # end timestamp (now)
-    end_timestamp: str = str(int(datetime.datetime.now().timestamp()))
+    end_timestamp: str = str(int(datetime.datetime.now().timestamp()) * 1000)
     # eager mode
     if eager == "true":
         # url preprocess
@@ -93,23 +93,23 @@ scheduler = BackgroundScheduler()
 scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-@register_job(scheduler, "interval", seconds=60, id="json_fetch", replace_existing=True)
+@register_job(scheduler, "interval", seconds=10, id="json_fetch", replace_existing=True)
 @util.close_old_connections
 def json_fetch():
     # validate the variables
     if not var_valid:
         return None
     # start timestamp (2023/09/03)
-    start_timestamp: str = "1693699200"
+    start_timestamp: str = "1693699200000"
     # end timestamp (now)
-    end_timestamp: str = str(int(datetime.datetime.now().timestamp()))
+    end_timestamp: str = str(int(datetime.datetime.now().timestamp()) * 1000)
     # url preprocess
     url = f"https://{umami_host}/api/websites/{site_id}/stats?startAt={start_timestamp}&endAt={end_timestamp}"
     # get json
     try:
         r = requests.get(url, headers=headers, timeout=15)
-        print("fetch complete", datetime.datetime.now(), flush=True)
         assert r.status_code == 200
+        print("fetch complete", datetime.datetime.now(), flush=True)
     # log error and don't touch the data
     except Exception as e:
         if e.__class__ == Timeout:
